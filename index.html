@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unicode Pipe</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column; /* Ensure elements stack vertically */
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    button {
+        padding: 20px 40px; /* Increase padding for larger button */
+        font-size: 20px; /* Increase font size for larger button */
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        margin-top: 20px; /* Add margin between pipe and button */
+    }
+    .copy-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+    button.clicked {
+        background-color: #aaa;
+    }
+
+    .bigpipe {
+        font-size: 300px; /* Set font size for big "|" character */
+        color: black; /* Set color for big "|" character */
+        margin-bottom: 20px; /* Add margin to separate from button */
+        background-color: #f0f0f0; /* Background color for rectangle */
+        border-radius: 20px; /* Rounded corners */
+        padding: 100px; /* Add wider padding inside the rectangle */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+    }
+
+    .success-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: calc(100% - 40px); /* Adjust width to leave 20px space on each side */
+        max-width: 600px; /* Limit the width to ensure it doesn't exceed a certain size */
+    }
+
+    .success-message {
+        color: grey;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        margin-top: 10px;
+        font-size: 20px;
+        font-style: italic;
+        padding: 20px; /* Add padding around the success message */
+        border: 1px solid #ccc; /* Add border */
+        border-radius: 5px; /* Add rounded corners */
+    }
+
+    .show {
+        opacity: 1;
+    }
+</style>
+</head>
+<body>
+    <div class="bigpipe">|</div> <!-- Big "|" character inside rounded rectangle -->
+
+    <button id="copyButton">
+        <img class="copy-icon" src="copywhite.svg" alt="Copy Icon">
+        COPY
+    </button>
+
+    <div class="success-container">
+        <div class="success-message" id="successMessage">✓ A Unicode pipe has been copied to your clipboard. For future reference, this character is probably right below your delete/backspace key on your keyboard.</div>
+    </div>
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function() {
+            // Change button color to grey
+            this.classList.add('clicked');
+
+            // Create a temporary textarea element
+            var tempTextarea = document.createElement('textarea');
+            // Set its value to the character you want to copy
+            tempTextarea.value = '|';
+            // Append it to the document
+            document.body.appendChild(tempTextarea);
+            // Select its content
+            tempTextarea.select();
+            // Copy the selected content
+            document.execCommand('copy');
+            // Remove the temporary textarea
+            document.body.removeChild(tempTextarea);
+
+            // Show success message
+            var successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+
+            // Fade button back to original color after 30 seconds
+            setTimeout(function() {
+                var copyButton = document.getElementById('copyButton');
+                copyButton.classList.remove('clicked');
+            }, 30000); // 30 seconds
+        });
+    </script>
+</body>
+</html>
